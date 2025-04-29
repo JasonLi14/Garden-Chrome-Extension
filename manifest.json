@@ -1,0 +1,16 @@
+{
+  "manifest_version": 3,
+  "name": "Garden Game",
+  "version": "1.0.0",
+  "description": "A fun garden game.",
+  "author": "Jason Li",
+  "action": {
+    "default_title": "Garden Game",
+    "default_popup": "index.html",
+    "default_icon": "hello_extensions.png"
+    },
+  "content_security_policy": {
+    "extension_pages": "default-src 'self'; script-src 'self' ; object-src 'self';",
+    "sandbox": "sandbox allow-scripts allow-forms allow-popups allow-modals; script-src 'self'; child-src 'self';"
+  } 
+}

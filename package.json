@@ -1,0 +1,24 @@
+{
+  "name": "garden-chrome-extension",
+  "version": "1.0.0",
+  "description": "A fun chrome extension where you grow a garden.",
+  "main": "main.js",
+  "scripts": {
+    "test": "http-server"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/JasonLi14/Garden-Chrome-Extension.git"
+  },
+  "keywords": [
+    "Garden",
+    "Fun",
+    "Game"
+  ],
+  "author": "Jason Li",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/JasonLi14/Garden-Chrome-Extension/issues"
+  },
+  "homepage": "https://github.com/JasonLi14/Garden-Chrome-Extension#readme"
+}
