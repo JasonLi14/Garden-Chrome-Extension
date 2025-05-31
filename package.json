@@ -4,7 +4,7 @@
   "description": "A fun chrome extension where you grow a garden.",
   "main": "main.js",
   "scripts": {
-    "test": "http-server"
+    "test": "http-server -c10"
   },
   "repository": {
     "type": "git",
