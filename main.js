@@ -1,4 +1,6 @@
 import { Grass } from "./Modules/grass.js";
+import { Tree } from "./Modules/tree.js";
+
 
 // constants
 const WIDTH = 640;
@@ -18,6 +20,15 @@ grass_graphic.x = 100;
 grass_graphic.y = 100;
 
 
+// Create tree object
+const tree = new Tree();
+tree.makeData();
+tree.makeGraphic();
+const tree_graphic = tree.getGraphic();
+console.log(tree_graphic);
+// tree_graphic.rotation = Math.PI;
+tree_graphic.x = 200;
+tree_graphic.y = 200;
 
 await app.init({
   backgroundColor: 0xaabbff, 
@@ -27,6 +38,7 @@ await app.init({
   resolution: 1 });
 
 app.stage.addChild(grass_graphic);
+app.stage.addChild(tree_graphic);
 
 document.body.append(app.canvas);
 
