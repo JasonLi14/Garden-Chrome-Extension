@@ -1,10 +1,14 @@
-import * as PLANTS from "./src/plants.js"
+import { Grass } from "./Modules/grass.js";
 
 // constants
 const WIDTH = 640;
 const HEIGHT = 360;
 
-const grass = new PLANTS.Grass();
+// Initialize the app
+const app = new PIXI.Application();
+
+// Create grass object
+const grass = new Grass();
 grass.makeData();
 grass.makeGraphic();
 const grass_graphic = grass.getGraphic();
@@ -12,8 +16,8 @@ grass_graphic.scale = 0.5;
 grass_graphic.rotation = Math.PI;
 grass_graphic.x = 100;
 grass_graphic.y = 100;
-// Initialize the app
-const app = new PIXI.Application();
+
+
 
 await app.init({
   backgroundColor: 0xaabbff, 
