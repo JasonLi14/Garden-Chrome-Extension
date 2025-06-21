@@ -1,5 +1,6 @@
 import { Grass } from "./Modules/grass.js";
 import { Tree } from "./Modules/tree.js";
+import { Flower } from "./Modules/flower.js";
 
 
 // constants
@@ -30,6 +31,16 @@ console.log(tree_graphic);
 tree_graphic.x = 200;
 tree_graphic.y = 200;
 
+// Create flower object
+const flower = new Flower();
+flower.makeData();
+flower.makeGraphic();
+const flower_graphic = flower.getGraphic();
+//console.log(flower_graphic);
+flower_graphic.x = 300;
+flower_graphic.y = 200;
+
+
 await app.init({
   backgroundColor: 0xaabbff, 
   width: WIDTH, 
@@ -39,6 +50,7 @@ await app.init({
 
 app.stage.addChild(grass_graphic);
 app.stage.addChild(tree_graphic);
+app.stage.addChild(flower_graphic);
 
 document.body.append(app.canvas);
 
