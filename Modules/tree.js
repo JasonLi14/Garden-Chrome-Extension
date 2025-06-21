@@ -1,5 +1,6 @@
+import { PIXI } from "../Libraries/pixi.js";
 import { Plant } from "./plants.js";
-import { randomInt } from "../Utilities/random.js"
+import { randomInt } from "../Utilities/random.js";
 
 export function Tree(size=100) {
     // Inherit from plant

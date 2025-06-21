@@ -1,14 +1,17 @@
+import { PIXI } from "./Libraries/pixi.js";
+import { unsafe_eval_js } from "./Libraries/unsafe-eval.js";
+Object.assign(PIXI, unsafe_eval_js); 
+
 import { Grass } from "./Modules/grass.js";
 import { Tree } from "./Modules/tree.js";
 import { Flower } from "./Modules/flower.js";
-
 
 // constants
 const WIDTH = 640;
 const HEIGHT = 360;
 
 // Initialize the app
-const app = new PIXI.Application();
+const app = new PIXI.Application(); 
 
 // Create grass object
 const grass = new Grass();
@@ -26,7 +29,7 @@ const tree = new Tree();
 tree.makeData();
 tree.makeGraphic();
 const tree_graphic = tree.getGraphic();
-console.log(tree_graphic);
+
 // tree_graphic.rotation = Math.PI;
 tree_graphic.x = 200;
 tree_graphic.y = 200;

@@ -20,9 +20,8 @@ export function Flower(size=100) {
 
         //stem
         const stem = new PIXI.Graphics();
-        stem.beginFill(0x196f3d);
-        stem.drawRect(-2.5, this.petalRadius, 5, 60);
-        stem.endFill();
+        stem.rect(-2.5, this.petalRadius, 5, 60);
+        stem.fill(0x196f3d);
         this.graphic.addChild(stem);
         
         //petals
@@ -30,11 +29,10 @@ export function Flower(size=100) {
             const angle = (i / this.numPetals) * Math.PI * 2;
             const petal = new PIXI.Graphics();
 
-            petal.beginFill(0xe9b4ec);
             petal.moveTo(0,0);
             petal.quadraticCurveTo(this.petalRadius, this.petalRadius, 0, this.petalRadius *2);
             petal.quadraticCurveTo(-this.petalRadius, this.petalRadius, 0, 0);
-            petal.endFill();
+            petal.fill(0xe9b4ec);
 
             
             petal.y = -this.flowerRadius;
@@ -48,9 +46,8 @@ export function Flower(size=100) {
 
         //centre
         const centre = new PIXI.Graphics();
-        centre.beginFill(0xf0eaf0);
-        centre.drawCircle(0, 0, this.flowerRadius);
-        centre.endFill();
+        centre.circle(0, 0, this.flowerRadius);
+        centre.fill(0xf0eaf0);
         this.graphic.addChild(centre);
 
         //flower.x = 

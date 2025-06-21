@@ -5,8 +5,10 @@
  * PixiJS is licensed under the MIT License.
  * http://www.opensource.org/licenses/mit-license
  */
-this.PIXI = this.PIXI || {};
-var unsafe_eval_js = (function (exports) {
+import { PIXI } from "./pixi.js";
+
+globalThis.PIXI = PIXI || {};
+export var unsafe_eval_js = (function (exports) {
     'use strict';
 
     "use strict";
@@ -1051,5 +1053,5 @@ var unsafe_eval_js = (function (exports) {
     return exports;
 
 })({});
-Object.assign(this.PIXI, unsafe_eval_js);
+// Object.assign(this.PIXI, unsafe_eval_js);
 //# sourceMappingURL=unsafe-eval.js.map
