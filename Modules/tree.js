@@ -1,4 +1,4 @@
-import { PIXI } from "../Libraries/pixi.js";
+import PIXI from "../Libraries/pixi.js";
 import { Plant } from "./plants.js";
 import { randomInt } from "../Utilities/random.js";
 

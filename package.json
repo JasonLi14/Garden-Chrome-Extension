@@ -20,5 +20,8 @@
   "bugs": {
     "url": "https://github.com/JasonLi14/Garden-Chrome-Extension/issues"
   },
-  "homepage": "https://github.com/JasonLi14/Garden-Chrome-Extension#readme"
+  "homepage": "https://github.com/JasonLi14/Garden-Chrome-Extension#readme",
+  "devDependencies": {
+    "pixi.js": "^8.10.1"
+  }
 }

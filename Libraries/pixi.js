@@ -5,7 +5,7 @@
  * PixiJS is licensed under the MIT License.
  * http://www.opensource.org/licenses/mit-license
  */
-export var PIXI = (function (exports) {
+var PIXI = (function (exports) {
     'use strict';
 
     "use strict";
@@ -53142,3 +53142,4 @@ ${e}`);
 
 })({});
 //# sourceMappingURL=pixi.js.map
+export default PIXI;

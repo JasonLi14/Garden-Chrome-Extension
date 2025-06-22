@@ -1,8 +1,10 @@
 {
   "compilerOptions": {
-    "target": "ES6"
+    "target": "ES6",
+    "baseUrl": "."
   },
-  "typeAcquisition": {
-    "include": ["pixi.js"]
-  }
+  "include": [
+    "src",
+    "Libraries"
+  ]
 }
