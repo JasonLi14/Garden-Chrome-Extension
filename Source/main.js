@@ -26,17 +26,6 @@ grass_graphic.rotation = Math.PI;
 grass_graphic.x = 100;
 grass_graphic.y = 100;
 
-
-// Create tree object
-const tree = new Tree();
-tree.makeData();
-tree.makeGraphic();
-const tree_graphic = tree.getGraphic();
-
-// tree_graphic.rotation = Math.PI;
-tree_graphic.x = 200;
-tree_graphic.y = 200;
-
 // Create flower object
 const flower = new Flower();
 flower.makeData();
@@ -55,7 +44,6 @@ await app.init({
   resolution: 1 });
 
 app.stage.addChild(grass_graphic);
-app.stage.addChild(tree_graphic);
 app.stage.addChild(flower_graphic);
 
 document.body.append(app.canvas);
@@ -63,9 +51,24 @@ document.body.append(app.canvas);
 // Animation
 // Count seconds that it has been running
 let elapsed = 0.0;
-app.ticker.add((ticker) => {
-  // Add the time to our total elapsed time
-  elapsed += ticker.deltaTime;
-  // test movement
-  // grass.x = 100.0 + Math.cos(elapsed/50.0) * 100.0;
+let growth = 0.0;
+// Listen for animate update
+let ticker = PIXI.Ticker.shared;
+ticker.autoStart = false;
+
+// Create tree object
+const tree = new Tree();
+tree.makeData();
+
+ticker.add(function(ticker) {
+  // draw the tree
+  tree.makeGraphic(growth);
+  const tree_graphic = tree.getGraphic();
+  tree_graphic.position.set(200, 200);
+  app.stage.addChild(tree_graphic);
+
+  growth += 0.0002;
+  app.renderer.render(app.stage);
+  app.stage.removeChild(tree_graphic);
 });
+ticker.start();

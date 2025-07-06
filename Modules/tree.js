@@ -20,8 +20,8 @@ export function Tree(size=100) {
         "Min Branching": 3,
         "Layers": 4,
         "Height Variation": 0.2,
-        "Thickness": 8,
-        "Thinning": 1.5,
+        "Thickness": 20,
+        "Thinning": 5,
         "Balanced Root": true,
         "Balanced": true,
         "Min Spread": 0.2,
@@ -58,7 +58,7 @@ export function Tree(size=100) {
                     
                     let new_x = offset * randomSign() + this.data[j][1];
                     
-                    // Adjust the base branch
+                    // Adjust the base branch to not be too extrmee
                     if (i === 0) {
                         new_x /= 5;
                     } else if (i === 1 && this.info["Balanced Root"] === true) {
@@ -79,14 +79,18 @@ export function Tree(size=100) {
                         }
                     }
 
-                    // Check if equalized branches (i.e. ues Pythagorean distance)
+                    // Find the y coordinate of the branch
                     let new_y = randomInt(this.data[j][2] + (1 - this.info["Height Variation"]) * branch_size, 
                                           this.data[j][2] + branch_size);
+
+                    // Check if equalized branches (i.e. ues Pythagorean distance)
                     if (this.info["Equal Branch Lengths"] === true) {
                         // Find the distance in the x direction
                         const x_dist = this.data[j][1] - new_x;
                         new_y = (branch_size ** 2 - x_dist ** 2) ** (1/2) + this.data[j][2];
                     }
+
+                    // Get the thickness of the new branch
                     const thickness = this.info["Thickness"] - i * this.info["Thinning"];
                     this.data.push([new_branches, new_x, new_y, thickness])
                 }
@@ -113,23 +117,25 @@ export function Tree(size=100) {
                     .moveTo(this.data[prev_i][1], this.data[prev_i][2]);
 
                 // Check if it is the last branch
-                if (branch_i + 1 > data_length * growth && growth != 1) {
+                if (branch_i > data_length * growth) {
+                    break;
+                } else if (branch_i + 1 > data_length * growth && growth != 1) {
                     // Find an intermediate value
                     const part = data_length * growth - branch_i;
+                    console.log(data_length * growth, branch_i, part);
+                    // Grow the branch partly
                     const part_x = (this.data[branch_i][1] - this.data[prev_i][1]) * part + this.data[prev_i][1];
                     const part_y = (this.data[branch_i][2] - this.data[prev_i][2]) * part + this.data[prev_i][2];
                     branch.lineTo(part_x, part_y);
                 } else {
                     branch.lineTo(this.data[branch_i][1], this.data[branch_i][2]);
                 }
+                
+                // Style the branch
                 branch.stroke({width: this.data[branch_i][3], color: this.info["Branch Color"]});
 
                 ++branch_i;
 
-                // Stop growth
-                if (branch_i > data_length * growth) {
-                    break;
-                }
                 this.graphic.addChild(branch);
             }
             ++prev_i;
