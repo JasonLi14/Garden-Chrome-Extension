@@ -1,6 +1,9 @@
-import PIXI from "../Libraries/pixi.js";
+import PIXI_NS from "../Libraries/pixi.js";
+/** @type {typeof import("pixi.js")} */
+const PIXI = PIXI_NS;
+
 import { Plant } from "./plants.js";
-import { randomInt } from "../Utilities/random.js";
+import { randomInt, randomSign, randomFloat } from "../Utilities/random.js";
 
 /**
  * A customizable tree class, inherits from ```Plant```
@@ -17,12 +20,12 @@ export function Tree(size=100) {
         "Min Branching": 3,
         "Layers": 4,
         "Height Variation": 0.2,
-        "Spread": 0.7,
         "Thickness": 8,
         "Thinning": 1.5,
         "Balanced Root": true,
         "Balanced": true,
-        "Min Spread": 0.5,
+        "Min Spread": 0.2,
+        "Max Spread": 1.3,
         "Branch Color": 0x753c85,
         "Leaf Color": 0x00ff00,
         "Equal Branch Lengths": true,
@@ -33,8 +36,9 @@ export function Tree(size=100) {
         this.data = [[1, 0, 0, this.info["Thickness"]]];  // [num branches, x, y]
 
         let layer_start = 0;
-        // Get the right amount of layers
+        // Get the number of layers, i is the number of layers
         for (let i = 0; i < this.info["Layers"]; ++i) {
+            // Every loop we need to get the end of the array
             const new_length = this.data.length;
             for (let j = layer_start; j < new_length; ++j) {
                 // Create branches 
@@ -45,10 +49,14 @@ export function Tree(size=100) {
                     if (i === this.info["Layers"] - 1) {
                         new_branches = 0;
                     }
+
                     // Generate x and y coordinates
+                    // branch_size is the size of the branch we want to be around
                     const branch_size = this.info["Size"]/this.info["Layers"];
-                    const offset = randomInt(this.info["Min Spread"] * branch_size, branch_size) * this.info["Spread"];
-                    let new_x = offset - branch_size / 2 + this.data[j][1];
+                    // offset is how far the branches are, absolutely, in the x-direction
+                    const offset = randomFloat(this.info["Min Spread"], this.info["Max Spread"]) * branch_size / 2;
+                    
+                    let new_x = offset * randomSign() + this.data[j][1];
                     
                     // Adjust the base branch
                     if (i === 0) {
@@ -70,11 +78,14 @@ export function Tree(size=100) {
                             new_x = this.data[j][1] + offset;
                         }
                     }
+
                     // Check if equalized branches (i.e. ues Pythagorean distance)
-                    let new_y = randomInt(this.data[j][2] + (1 - this.info["Height Variation"]) * branch_size, this.data[j][2] + branch_size);
+                    let new_y = randomInt(this.data[j][2] + (1 - this.info["Height Variation"]) * branch_size, 
+                                          this.data[j][2] + branch_size);
                     if (this.info["Equal Branch Lengths"] === true) {
+                        // Find the distance in the x direction
                         const x_dist = this.data[j][1] - new_x;
-                        new_y = (branch_size ** 2 - new_x ** 2) ** (1/2) + this.data[j][2];
+                        new_y = (branch_size ** 2 - x_dist ** 2) ** (1/2) + this.data[j][2];
                     }
                     const thickness = this.info["Thickness"] - i * this.info["Thinning"];
                     this.data.push([new_branches, new_x, new_y, thickness])
@@ -112,7 +123,7 @@ export function Tree(size=100) {
                     branch.lineTo(this.data[branch_i][1], this.data[branch_i][2]);
                 }
                 branch.stroke({width: this.data[branch_i][3], color: this.info["Branch Color"]});
-                
+
                 ++branch_i;
 
                 // Stop growth

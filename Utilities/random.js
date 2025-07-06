@@ -5,14 +5,24 @@
 
 /**
  * Returns a random integer from low to high inclusive. 
- * @param {float} low: the low end
- * @param {float} high: the high end
+ * @param {float} low the low end
+ * @param {float} high the high end
  * @returns {int}
  */
 export function randomInt(low=0, high=1) {
     low = Math.floor(low);
     high = Math.ceil(high);
     return Math.floor(Math.random() * (high - low + 1)) + low;
+}
+
+/**
+ * Returns a random float from low to high inclusive. 
+ * @param {float} low the low end
+ * @param {float} high the high end
+ * @returns {float}
+ */
+export function randomFloat(low=0, high=1) {
+    return Math.random() * (high - low) + low;
 }
 
 /**
@@ -29,4 +39,16 @@ export function shuffleArray(array) {
     [array[i], array[j]] = [array[j], array[i]];
     }
     return array;
+}
+
+/** 
+ * Returns either -1 or 1
+ * @returns {-1 | 1}
+*/
+export function randomSign() {
+    if (Math.random() < 0.5) {
+        return -1;
+    } else {
+        return 1;
+    }
 }
