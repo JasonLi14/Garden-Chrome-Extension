@@ -2,10 +2,15 @@ import PIXI from "../Libraries/pixi.js";
 import { Plant } from "./plants.js";
 import { randomInt } from "../Utilities/random.js";
 
+/**
+ * A customizable tree class, inherits from ```Plant```
+ * @param {float} size: int, the size of the tree.
+ */
 export function Tree(size=100) {
     // Inherit from plant
     Plant.call(this, size);
 
+    // Stores info about the tree
     this.info = {
         "Size": 200,
         "Max Branching": 2,

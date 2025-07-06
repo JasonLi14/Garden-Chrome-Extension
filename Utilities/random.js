@@ -1,11 +1,25 @@
-// This file contains functions for randomness
+/**
+ * @file Functions for random numbers.
+ * @author Jason Li
+ */
 
+/**
+ * Returns a random integer from low to high inclusive. 
+ * @param {float} low: the low end
+ * @param {float} high: the high end
+ * @returns {int}
+ */
 export function randomInt(low=0, high=1) {
     low = Math.floor(low);
     high = Math.ceil(high);
     return Math.floor(Math.random() * (high - low + 1)) + low;
 }
 
+/**
+ * Shuffles an array
+ * @param {array} array: list to be shuffled
+ * @returns {array} shuffled array
+ */
 export function shuffleArray(array) {
     for (let i = array.length - 1; i > 0; i--) {
     // Generate a random index between 0 and i

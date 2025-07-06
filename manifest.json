@@ -6,7 +6,7 @@
   "author": "Jason Li",
   "action": {
     "default_title": "Garden Game",
-    "default_popup": "index.html",
+    "default_popup": "Source/index.html",
     "default_icon": "hello_extensions.png"
     },
   "content_security_policy": {

@@ -2,19 +2,19 @@ import PIXI_NS from "../Libraries/pixi.js";
 /** @type {typeof import("pixi.js")} */
 const PIXI = PIXI_NS;
 
-import unsafe_eval_js from "./Libraries/unsafe-eval.js";
+import unsafe_eval_js from "../Libraries/unsafe-eval.js";
 Object.assign(PIXI, unsafe_eval_js); 
 
-import { Grass } from "./Modules/grass.js";
-import { Tree } from "./Modules/tree.js";
-import { Flower } from "./Modules/flower.js";
+import { Grass } from "../Modules/grass.js";
+import { Tree } from "../Modules/tree.js";
+import { Flower } from "../Modules/flower.js";
 
 // constants
 const WIDTH = 640;
 const HEIGHT = 360;
 
 // Initialize the app
-const app = new PIXI.Application(); 
+const app = new PIXI.Application;
 
 // Create grass object
 const grass = new Grass();

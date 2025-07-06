@@ -1,6 +1,10 @@
 import { Plant } from "./plants.js";
 import { randomInt } from "../Utilities/random.js"
 
+/**
+ * The Flower Class, inherits from ```Plant```
+ * @param {float} size: int, the size of the flower.
+ */
 export function Flower(size=100) {
     Plant.call(this, size);
 

@@ -1,8 +1,14 @@
-// Constants
-const WIDTH = 640;
-const HEIGHT = 360;
-const SEED = 0;
+/**
+ * @file The default plant class which all other plants inherit from.
+ * @author Jason Li
+ */
 
+import PIXI_NS from "../Libraries/pixi.js";
+/** @type {typeof import("pixi.js")} */
+const PIXI = PIXI_NS;
+/**
+ * The default plant class. All plant descendants should implement `makeData` and `makeGraphic`
+ */
 export function Plant() {
     this.size = 100;
     this.growth = 0;
@@ -10,23 +16,33 @@ export function Plant() {
     this.data = [];
     this.info = {};
 
-    // For loading saved data about plants
+    /**
+     * Sets the plant's data to `data`.
+     * @param {array} data 
+     */
     this.loadData = function(data) {
         this.data = data;
     }
 
-    // For generating data for a plant based on some info
+    /**
+     * For generating data for a plant based on some info
+     */
     this.makeData = function() {}
 
-    // For creating the actual graphic
+    /**
+     * For creating the actual plant graphic at a certain `growth` level. 
+     */
     this.makeGraphic = function(growth=1) {} 
 
-    // 
+    /**
+     * Returns the generated graphic of the plant at the current growth level.
+     * @returns {PIXI.Container}
+     */
     this.getGraphic = function() {
         return this.graphic;
     }
 
-    // initialize graphic
+    // Initialize an empty container as the base graphic
     this.graphic = new PIXI.Container({
         x:0,
         y:0
