@@ -13,7 +13,7 @@ export function Tree(size=100) {
     // Inherit from plant
     Plant.call(this, size);
 
-    // Stores info about the tree
+    // Stores info about the tree. These are just basic stats.
     this.info = {
         "Size": 200,
         "Max Branching": 2,
@@ -29,6 +29,11 @@ export function Tree(size=100) {
         "Branch Color": 0x753c85,
         "Leaf Color": 0x00ff00,
         "Equal Branch Lengths": true,
+        "Branch Decay": 1, // Float from 0 to 1 about how many less branches per layer
+        "Leaf Size": 10,
+        "Leaf Ratio": 1,  
+        "Leaf Over Branch": true  // whether it's leaf ratio of leaves per branch, or
+        // leaf ratio branches per leaf
     };
 
     this.makeData = function() {    
@@ -41,7 +46,7 @@ export function Tree(size=100) {
             // Every loop we need to get the end of the array
             const new_length = this.data.length;
             for (let j = layer_start; j < new_length; ++j) {
-                // Create branches 
+                // Create branches from the current branch we are on
                 for (let k = 0; k < this.data[j][0]; ++k) {
                     // Find a number of branches to create
                     let new_branches = randomInt(this.info["Min Branching"], this.info["Max Branching"]);
@@ -100,45 +105,46 @@ export function Tree(size=100) {
         return this.data;
     }
 
+    // We need to store a reference to the last thing rendered 
+    // And the last node we were building from
+    this.prev_info = {
+        "last_thing": null,
+        "last_node": 0
+    }; 
+
     this.makeGraphic = function(growth=1) {
         // growth must be between 0 and 1
         if (growth > 1) {
             growth = 1; 
         }
+
+        // For a heuristic, reverse growing is the same as growing from 1
+        if (this.growth > growth) {
+            this.growth = 0;
+        }
+        // If it's already fully grown
+        if (this.growth === 1) {
+            return this.graphic;
+        }
+        // Set growth to 
         
         // Figure out how many objects there are to render
         const data_length = this.data.length;
-        let branch_i = 1;
-        let prev_i = 0;
-        while (branch_i < data_length * growth) {
-            for (let i = 0; i < this.data[prev_i][0]; ++i) {
-                // Create the new line
-                const branch = new PIXI.Graphics()
-                    .moveTo(this.data[prev_i][1], this.data[prev_i][2]);
+        // Find the index to start on
+        const start = Math.floor(growth * data_length); 
+        part_i = start;
+        prev_i = this.prev_info["last_node"];
+        while (part_i < data_length * growth) {
+            // Delete the last thing so that we can re-render it
+            if (this.prev_info["last_thing"] != null) {
+                this.prev_info["last_thing"].destroy();
+            } 
+            // Create a new branch
+            const branch = new PIXI.Graphics()
+                // Make it start from the previous node
+                .moveTo(this.data[prev_i][1], this.data[prev_i][2]);
 
-                // Check if it is the last branch
-                if (branch_i > data_length * growth) {
-                    break;
-                } else if (branch_i + 1 > data_length * growth && growth != 1) {
-                    // Find an intermediate value
-                    const part = data_length * growth - branch_i;
-                    console.log(data_length * growth, branch_i, part);
-                    // Grow the branch partly
-                    const part_x = (this.data[branch_i][1] - this.data[prev_i][1]) * part + this.data[prev_i][1];
-                    const part_y = (this.data[branch_i][2] - this.data[prev_i][2]) * part + this.data[prev_i][2];
-                    branch.lineTo(part_x, part_y);
-                } else {
-                    branch.lineTo(this.data[branch_i][1], this.data[branch_i][2]);
-                }
-                
-                // Style the branch
-                branch.stroke({width: this.data[branch_i][3], color: this.info["Branch Color"]});
-
-                ++branch_i;
-
-                this.graphic.addChild(branch);
-            }
-            ++prev_i;
+            
         }
 
         // Make the root the anchor

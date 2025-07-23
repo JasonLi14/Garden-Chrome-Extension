@@ -14,6 +14,10 @@ export function Plant() {
     this.growth = 0;
     this.data_index = 0;
     this.data = [];
+
+    /**
+     * For information so that we can customize a plant each time.
+     */
     this.info = {};
 
     /**
@@ -33,6 +37,12 @@ export function Plant() {
      * For creating the actual plant graphic at a certain `growth` level. 
      */
     this.makeGraphic = function(growth=1) {} 
+
+    /**
+     * To be used with the `makeGraphic` function to let the object know 
+     * about how the graphic ended.
+     */
+    this.prev_info = {};
 
     /**
      * Returns the generated graphic of the plant at the current growth level.
