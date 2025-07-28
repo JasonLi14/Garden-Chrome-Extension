@@ -16,8 +16,8 @@ export function Tree(size=100) {
     // Stores info about the tree. These are just basic stats.
     this.info = {
         "Size": 200,
+        "Min Branching": 1,
         "Max Branching": 2,
-        "Min Branching": 3,
         "Layers": 4,
         "Height Variation": 0.2,
         "Thickness": 20,
@@ -25,7 +25,7 @@ export function Tree(size=100) {
         "Balanced Root": true,
         "Balanced": true,
         "Min Spread": 0.2,
-        "Max Spread": 1.3,
+        "Max Spread": 1.2,
         "Branch Color": 0x753c85,
         "Leaf Color": 0x00ff00,
         "Equal Branch Lengths": true,
@@ -45,11 +45,13 @@ export function Tree(size=100) {
         for (let i = 0; i < this.info["Layers"]; ++i) {
             // Every loop we need to get the end of the array
             const new_length = this.data.length;
+            // Create from the newly created branches
             for (let j = layer_start; j < new_length; ++j) {
                 // Create branches from the current branch we are on
                 for (let k = 0; k < this.data[j][0]; ++k) {
                     // Find a number of branches to create
                     let new_branches = randomInt(this.info["Min Branching"], this.info["Max Branching"]);
+                    console.log(new_branches);
                     // The last nodes should not have new branches
                     if (i === this.info["Layers"] - 1) {
                         new_branches = 0;
@@ -109,7 +111,8 @@ export function Tree(size=100) {
     // And the last node we were building from
     this.prev_info = {
         "last_thing": null,
-        "last_node": 0
+        "last_node": 0,
+        "branch_counter": 0,
     }; 
 
     this.makeGraphic = function(growth=1) {
@@ -118,7 +121,7 @@ export function Tree(size=100) {
             growth = 1; 
         }
 
-        // For a heuristic, reverse growing is the same as growing from 1
+        // For a heuristic, reverse growing is the same as regrowing
         if (this.growth > growth) {
             this.growth = 0;
         }
@@ -126,30 +129,75 @@ export function Tree(size=100) {
         if (this.growth === 1) {
             return this.graphic;
         }
-        // Set growth to 
         
         // Figure out how many objects there are to render
         const data_length = this.data.length;
-        // Find the index to start on
-        const start = Math.floor(growth * data_length); 
-        part_i = start;
-        prev_i = this.prev_info["last_node"];
-        while (part_i < data_length * growth) {
-            // Delete the last thing so that we can re-render it
-            if (this.prev_info["last_thing"] != null) {
-                this.prev_info["last_thing"].destroy();
-            } 
+
+        // Find the node to grow from
+        let prev_i = this.prev_info["last_node"];
+
+        // Find the index to grow
+        // We use data_length - 1 because we draw lines for nodes
+        let part_i = Math.floor(this.growth * (data_length - 1)) + 1; 
+
+        // Stores how many branches have grown from the current node
+        let branch_counter = this.prev_info["branch_counter"]; 
+
+        // Delete the last thing so that we can re-render it
+        if (this.prev_info["last_thing"] != null) {
+            this.prev_info["last_thing"].destroy();
+        }
+
+        // Loop until we get to the growth cap
+        while (part_i < (data_length - 1) * growth + 1) {
             // Create a new branch
             const branch = new PIXI.Graphics()
                 // Make it start from the previous node
-                .moveTo(this.data[prev_i][1], this.data[prev_i][2]);
-
+                .moveTo(this.data[prev_i][1], this.data[prev_i][2])
             
+            // Figure out how much to grow the branch. We can't grow negatively
+            const branch_growth = Math.max(Math.min(1, (data_length - 1) * growth - part_i + 1), 0);
+            
+            // Grow the branch, potentially partially
+            const line_to_x = (this.data[part_i][1] - this.data[prev_i][1]) * branch_growth + this.data[prev_i][1];
+            const line_to_y = (this.data[part_i][2] - this.data[prev_i][2]) * branch_growth + this.data[prev_i][2];
+            branch.lineTo(line_to_x, line_to_y);
+            this.graphic.addChild(branch);
+
+            // Style the branch
+            branch.stroke({width: this.data[part_i][3], color: this.info["Branch Color"]});
+
+            // Keep track of data
+            if (branch_growth >= 1) {
+                // Only update branch counter if it's fully grown
+                ++branch_counter;
+            }
+            ++part_i;
+
+            if (branch_growth < 1) {
+                // this.prev_info["last_thing"] = branch;
+            } else {
+                this.prev_info["last_thing"] = null;
+            }
+
+            // Move prev_i if enough branches from the previous node have grown
+            if (branch_counter >= this.data[prev_i][0]) {
+                branch_counter = 0;
+                ++prev_i;  // Move on to the next node
+            }
+
         }
+        // Update the last thing we drew from
+        this.prev_info["last_node"] = prev_i;
+        this.prev_info["branch_counter"] = branch_counter;
 
         // Make the root the anchor
         this.graphic.pivot.set(0, 0);
         this.graphic.angle = 180;
+
+        // Set the plant's growth to the new growth
+        this.growth = growth;
+        
         return this.graphic;
     }
 

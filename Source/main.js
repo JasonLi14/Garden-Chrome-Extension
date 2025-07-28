@@ -59,16 +59,34 @@ ticker.autoStart = false;
 // Create tree object
 const tree = new Tree();
 tree.makeData();
+const tree_graphic = tree.makeGraphic(0.6);
+tree.makeGraphic(0.601);
+tree_graphic.position.set(200, 200);
+
+app.stage.addChild(tree_graphic); 
+
+// A growing tree
+const tree_growing = new Tree();
+tree_growing.makeData();
+const tree_growing_graphic = tree_growing.makeGraphic(0);
+tree_growing_graphic.position.set(300, 300);
+app.stage.addChild(tree_growing_graphic); 
+
 
 ticker.add(function(ticker) {
-  // draw the tree
-  tree.makeGraphic(growth);
-  const tree_graphic = tree.getGraphic();
-  tree_graphic.position.set(200, 200);
-  app.stage.addChild(tree_graphic);
-
-  growth += 0.0002;
-  app.renderer.render(app.stage);
-  app.stage.removeChild(tree_graphic);
+  growth += 0.001;
+  // update the graphic
+  tree_growing.makeGraphic(growth);
 });
+
+// function onClick() {
+  // console.log("hello"); 
+  // growth += 0.01;
+  // tree_growing.makeGraphic(growth);
+// }
+
+// app.stage.eventMode = 'static';
+// app.stage.hitArea = app.screen;
+// app.stage.on('pointerdown', onClick); 
+
 ticker.start();
