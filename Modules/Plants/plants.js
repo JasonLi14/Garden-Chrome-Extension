@@ -3,7 +3,7 @@
  * @author Jason Li
  */
 
-import PIXI_NS from "../Libraries/pixi.js";
+import PIXI_NS from "../../Libraries/pixi.js";
 /** @type {typeof import("pixi.js")} */
 const PIXI = PIXI_NS;
 /**

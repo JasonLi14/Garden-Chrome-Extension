@@ -1,5 +1,5 @@
 import { Plant } from "./plants.js";
-import PIXI from "../Libraries/pixi.js";
+import PIXI from "../../Libraries/pixi.js";
 
 export function Grass(size=100, min_amt=10) {
     Plant.call(this, size);

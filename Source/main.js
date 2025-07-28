@@ -5,9 +5,9 @@ const PIXI = PIXI_NS;
 import unsafe_eval_js from "../Libraries/unsafe-eval.js";
 Object.assign(PIXI, unsafe_eval_js); 
 
-import { Grass } from "../Modules/grass.js";
-import { Tree } from "../Modules/tree.js";
-import { Flower } from "../Modules/flower.js";
+import { Grass } from "../Modules/Plants/grass.js";
+import { Tree } from "../Modules/Plants/tree.js";
+import { Flower } from "../Modules/Plants/flower.js";
 
 // constants
 const WIDTH = 640;

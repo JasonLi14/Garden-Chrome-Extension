@@ -1,9 +1,9 @@
-import PIXI_NS from "../Libraries/pixi.js";
+import PIXI_NS from "../../Libraries/pixi.js";
 /** @type {typeof import("pixi.js")} */
 const PIXI = PIXI_NS;
 
 import { Plant } from "./plants.js";
-import { randomInt, randomSign, randomFloat } from "../Utilities/random.js";
+import { randomInt, randomSign, randomFloat } from "../../Utilities/random.js";
 
 /**
  * A customizable tree class, inherits from ```Plant```
@@ -15,10 +15,10 @@ export function Tree(size=100) {
 
     // Stores info about the tree. These are just basic stats.
     this.info = {
-        "Size": 200,
-        "Min Branching": 1,
-        "Max Branching": 2,
-        "Layers": 4,
+        "Size": 150,
+        "Min Branching": 2,
+        "Max Branching": 3,
+        "Layers": 3,
         "Height Variation": 0.2,
         "Thickness": 20,
         "Thinning": 5,
@@ -51,7 +51,6 @@ export function Tree(size=100) {
                 for (let k = 0; k < this.data[j][0]; ++k) {
                     // Find a number of branches to create
                     let new_branches = randomInt(this.info["Min Branching"], this.info["Max Branching"]);
-                    console.log(new_branches);
                     // The last nodes should not have new branches
                     if (i === this.info["Layers"] - 1) {
                         new_branches = 0;

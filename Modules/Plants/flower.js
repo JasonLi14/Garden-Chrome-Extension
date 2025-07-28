@@ -1,5 +1,5 @@
 import { Plant } from "./plants.js";
-import { randomInt } from "../Utilities/random.js"
+import { randomInt } from "../../Utilities/random.js"
 
 /**
  * The Flower Class, inherits from ```Plant```
